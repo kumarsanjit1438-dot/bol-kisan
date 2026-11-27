@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bol Kisan</title>
+<style>body{font-family:Arial;background:#FFF7E6;padding:16px;text-align:center}
+h1{color:#1A7A2E}button{font-size:20px;padding:14px;border-radius:12px;border:none;width:100%;margin:8px 0}
+.mic{background:#1A7A2E;color:white}.crop{background:#FFF2CC;border:2px solid #E6A800}
+.card{background:white;border-radius:16px;padding:16px;margin:14px 0}</style></head>
+<body><h1>🌾 Bol Kisan</h1><p>Boliye, Suniye, Bechiye - No Typing, No Reading</p>
+<div class="card"><b>Fasal Chuniye</b><br>
+<button class="crop" onclick="selectCrop('Makka',2250)">🌽 Makka</button>
+<button class="crop" onclick="selectCrop('Gehu',2425)">🌾 Gehu</button>
+<button class="crop" onclick="selectCrop('Dhan',2300)">🍚 Dhan</button>
+<p id="selected">Chuni hui fasal: Makka</p></div>
+<div class="card"><button class="mic" onclick="askRate()">🎤 BOLKE BHAV PUCHIYE</button>
+<p id="answer" style="font-size:28px;font-weight:bold;color:#1A7A2E">Bhav yahan aayega</p>
+<button onclick="speakAgain()" style="background:#222;color:white">🔊 PHIR SE SUNIYE</button></div>
+<div class="card"><h3>Shahpur Patori Mandi - Aaj ka Bhav</h3>
+<p>Makka: Rs 2,250 / Quintal</p><p>Gehu: Rs 2,425 / Quintal</p><p>Dhan: Rs 2,300 / Quintal</p>
+<button onclick="connectBuyer()" style="background:#FF6B00;color:white">📞 Kharidar se Baat Kariye</button><p id="buyer"></p></div>
+<script>
+let crop='Makka',price=2250;
+function selectCrop(c,p){crop=c;price=p;document.getElementById('selected').innerText='Chuni hui fasal: '+c;}
+function speakText(t){let u=new SpeechSynthesisUtterance(t);u.lang='hi-IN';speechSynthesis.speak(u);}
+function askRate(){document.getElementById('answer').innerText=crop+' : Rs '+price+' / Quintal';speakText(crop+' ka bhav Shahpur Patori mandi me '+price+' rupaye prati quintal hai.');}
+function speakAgain(){speakText(crop+' ka bhav '+price+' rupaye hai.')}
+function connectBuyer(){document.getElementById('buyer').innerText='Kharidar ko number bhej diya gaya.';speakText('Kharidar ko number bhej diya gaya.');}
+</script></body></html>
