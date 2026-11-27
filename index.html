@@ -20,10 +20,10 @@ select{width:100%;padding:15px;font-size:20px;border-radius:10px}
 <div class="top"><h1>🌾 Bol Kisan</h1><p>Bolo, Bhav Suno - UP • Bihar • MP • Jharkhand</p></div>
 <div class="card">
 <p>📍 Rajya</p><select id="rajya" onchange="badloMandi()"><option>Bihar</option><option>Uttar Pradesh</option><option>Madhya Pradesh</option><option>Jharkhand</option></select>
-<p>🏪 Mandi</p><select id="mandi"></select>
+<p>🏪 Mandi</p><select id="mandi"><option>Patna</option><option>Hajipur</option><option>Muzaffarpur</option><option>Gaya</option><option>Bhagalpur</option><option>Darbhanga</option><option>Purnia</option></select>
 <p>🌽 Fasal</p><select id="fasal"><option>Makka</option><option>Gehu</option><option>Dhan</option><option>Aloo</option><option>Sarso</option><option>Pyaz</option></select>
 <div class="quick">
-<button onclick="setCrop('Makka',this)">Makka</button>
+<button onclick="setCrop('Makka',this)" class="on">Makka</button>
 <button onclick="setCrop('Gehu',this)">Gehu</button>
 <button onclick="setCrop('Dhan',this)">Dhan</button>
 <button onclick="setCrop('Aloo',this)">Aloo</button>
@@ -33,18 +33,19 @@ select{width:100%;padding:15px;font-size:20px;border-radius:10px}
 <button class="btn green" onclick="speakBhav()">🔊 BHAV BATAO</button>
 <button class="btn red" onclick="chup()">✋ CHUP HO JAO</button>
 <div id="suna"></div>
-<div id="result">Namaste Kisan Bhai! MAI BOLUNGA dabao aur bolo</div>
+<div id="result">Namaste Kisan Bhai! BHAV BATAO dabao</div>
 <div id="sun">Sunne ke liye taiyaar hu</div>
 <script>
-let mandis={"Bihar":["Patna","Hajipur","Muzaffarpur","Gaya","Bhagalpur","Darbhanga","Purnia"],"Uttar Pradesh":["Lucknow","Kanpur","Varanasi","Prayagraj","Gorakhpur","Agra","Bareilly"],"Madhya Pradesh":["Bhopal","Indore","Gwalior","Jabalpur","Ujjain","Rewa"],"Jharkhand":["Ranchi","Jamshedpur","Dhanbad","Bokaro","Hazaribagh","Deoghar"]};
-let base={Makka:2250,Gehu:2425,Dhan:2300,Aloo:1800,Sarso:5650,Pyaz:2100};
-let crop='Makka';let welcomeHua=false;
-function badloMandi(){let r=document.getElementById('rajya').value;let m=document.getElementById('mandi');let purana=m.value;m.innerHTML="";mandis[r].forEach(x=>{let o=document.createElement('option');o.text=x;m.appendChild(o);});}
-badloMandi();
-function setCrop(c,btn){crop=c;document.getElementById('fasal').value=c;document.querySelectorAll('.quick button').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');}
-document.getElementById('fasal').onchange=e=>{crop=e.target.value;}
-function bolo(txt){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(txt);u.lang='hi-IN';u.rate=0.9;speechSynthesis.speak(u);document.getElementById('result').innerText=txt;}
-function welcome(){if(welcomeHua)return;welcomeHua=true;bolo("Namaste Kisan Bhai, Bol Kisan me aapka swagat hai. Pehle aap boliye, fir main jawab dunga. Boliye, kaun si mandi ka kaun si fasal ka bhav jaanna hai.");}
-// Kholte hi Welcome - pehle touch par bolega
-document.addEventListener('click',welcome);
-window.onload=function(){setTimeout(()=>{if(!welcomeHua){document.getElementById('result').innerText="Nam
+var mandis={"Bihar":["Patna","Hajipur","Muzaffarpur","Gaya","Bhagalpur","Darbhanga","Purnia"],"Uttar Pradesh":["Lucknow","Kanpur","Varanasi","Prayagraj","Gorakhpur","Agra","Bareilly"],"Madhya Pradesh":["Bhopal","Indore","Gwalior","Jabalpur","Ujjain","Rewa"],"Jharkhand":["Ranchi","Jamshedpur","Dhanbad","Bokaro","Hazaribagh","Deoghar"]};
+var base={Makka:2250,Gehu:2425,Dhan:2300,Aloo:1800,Sarso:5650,Pyaz:2100};
+var crop='Makka';
+function badloMandi(){var r=document.getElementById('rajya').value;var m=document.getElementById('mandi');m.innerHTML="";var list=mandis[r];for(var i=0;i<list.length;i++){var o=document.createElement('option');o.text=list[i];o.value=list[i];m.add(o);}}
+function setCrop(c,btn){crop=c;document.getElementById('fasal').value=c;var all=document.querySelectorAll('.quick button');for(var i=0;i<all.length;i++)all[i].classList.remove('on');if(btn)btn.classList.add('on');}
+document.getElementById('fasal').onchange=function(e){crop=e.target.value;};
+function bolo(txt){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(txt);u.lang='hi-IN';u.rate=0.9;speechSynthesis.speak(u);}catch(e){}document.getElementById('result').innerText=txt;}
+function getBhav(){var mandi=document.getElementById('mandi').value;if(!mandi)mandi="Patna";return base[crop]+(mandi.length*13%150);}
+function speakBhav(){var mandi=document.getElementById('mandi').value;if(!mandi){badloMandi();mandi=document.getElementById('mandi').value;}var rajya=document.getElementById('rajya').value;bolo(rajya+" ke "+mandi+" mandi me "+crop+" ka bhav "+getBhav()+" rupaye kuntal hai");}
+function chup(){try{speechSynthesis.cancel();}catch(e){}document.getElementById('sun').innerText="Chup ho gaya";}
+function suno(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert("Chrome me kholo, Mic Allow karo");return;}var r=new SR();r.lang='hi-IN';document.getElementById('sun').innerText="Sun raha hu... Bolo";r.onresult=function(e){var bola=e.results[0][0].transcript.toLowerCase();document.getElementById('suna').innerText="Tumne bola: "+bola;if(bola.indexOf("geh")>-1)crop='Gehu';else if(bola.indexOf("dhan")>-1)crop='Dhan';else if(bola.indexOf("aloo")>-1)crop='Aloo';else if(bola.indexOf("sarso")>-1)crop='Sarso';else if(bola.indexOf("pyaz")>-1)crop='Pyaz';else if(bola.indexOf("makka")>-1||bola.indexOf("makai")>-1)crop='Makka';if(bola.indexOf("uttar")>-1||bola.indexOf("lucknow")>-1||bola.indexOf("kanpur")>-1)document.getElementById('rajya').value="Uttar Pradesh";else if(bola.indexOf("madhya")>-1||bola.indexOf("bhopal")>-1||bola.indexOf("indore")>-1)document.getElementById('rajya').value="Madhya Pradesh";else if(bola.indexOf("jharkhand")>-1||bola.indexOf("ranchi")>-1)document.getElementById('rajya').value="Jharkhand";else if(bola.indexOf("bihar")>-1||bola.indexOf("patna")>-1)document.getElementById('rajya').value="Bihar";badloMandi();var all=[].concat(mandis["Bihar"],mandis["Uttar Pradesh"],mandis["Madhya Pradesh"],mandis["Jharkhand"]);for(var i=0;i<all.length;i++){if(bola.indexOf(all[i].toLowerCase())>-1){document.getElementById('mandi').value=all[i];}}document.getElementById('fasal').value=crop;setTimeout(speakBhav,300);};r.onerror=function(){document.getElementById('sun').innerText="Mic nahi khula! Allow dabao";};try{r.start();}catch(e){}}
+var welcomeHua=false;document.addEventListener('click',function(){if(!welcomeHua){welcomeHua=true;bolo("Namaste Kisan Bhai, Bol Kisan me aapka swagat hai.");}},{once:true});
+</script></body></html>
