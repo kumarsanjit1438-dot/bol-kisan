@@ -1,52 +1,41 @@
-
-<h1 style="color:#1A7A2E">Namaste Kisan Bhai!</h1>
-<p style="font-size:20px"><b>Bol Kisan</b> me Swagat Hai<br><b>PURE UP + BIHAR - 113 Mandi</b><br>38 Bihar + 75 UP - Koi Mandi Chhuti Nahi!</p>
-<p>🎤 Pehle Aap Bolo • 🔊 Phir Ye Bolega</p>
-<button class="btn bhav" onclick="startApp()">👉 SHURU KARO</button>
+<!DOCTYPE html>
+<html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bol Kisan</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f2f2f2}
+.top{background:#1A7A2E;color:#fff;text-align:center;padding:18px 10px;border-radius:0 0 20px 20px}
+.top h1{margin:0;font-size:32px}.top p{margin:5px 0 0;font-size:17px}
+.card{background:#fff;margin:15px;border-radius:20px;padding:18px;box-shadow:0 2px 10px #ccc}
+.card p{font-size:20px;font-weight:bold;margin:12px 0 5px}
+select{width:100%;padding:15px;font-size:19px;border:2px solid #ddd;border-radius:12px;background:#f9f9f9}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.quick button{flex:1;padding:12px;font-size:17px;font-weight:bold;border:1px solid #ddd;border-radius:25px;background:#fff}
+.quick .on{background:#1A7A2E;color:#fff}
+.btn{width:92%;margin:10px 4%;padding:18px;font-size:22px;font-weight:bold;color:#fff;border:none;border-radius:15px}
+.orange{background:#FF7A00}.green{background:#1A7A2E}.red{background:#D32F2F}
+#result{background:#fff;margin:15px;border-radius:20px;padding:18px;text-align:center;font-size:22px;font-weight:bold;min-height:70px}
+#sun{ text-align:center;font-size:18px;color:#555}
+</style></head><body>
+<div class="top"><h1>🌾 Bol Kisan</h1><p>🎤 Pehle Aap Bolo • 🔊 Phir Ye Bolega</p></div>
+<div class="card">
+<p>📍 Rajya</p><select id="state" onchange="loadMandi()"><option>Bihar</option><option>Uttar Pradesh</option><option>Madhya Pradesh</option></select>
+<p>🏪 Mandi</p><select id="mandi"></select>
+<p>🌽 Fasal</p><select id="crop" onchange="setCrop(this.value)"><option>Makka</option><option>Gehu</option><option>Dhan</option><option>Aloo</option><option>Sarso</option></select>
+<div class="quick">
+<button onclick="setCrop('Makka',this)">Makka</button><button onclick="setCrop('Gehu',this)">Gehu</button><button onclick="setCrop('Dhan',this)">Dhan</button><button onclick="setCrop('Aloo',this)">Aloo</button><button onclick="setCrop('Sarso',this)">Sarso</button>
 </div></div>
-
-<div class="top"><h1>🌾 Bol Kisan</h1><p>PURE UP + BIHAR Ka Mandi Bhav</p><p>⭐ 113 Mandi • 38 Bihar + 75 UP</p></div>
-
-<div class="card">
-<p style="font-size:20px;font-weight:bold;margin:0">📍 1. Rajya Chuno - UP / Bihar</p>
-<select id="state" onchange="loadMandi()"><option value="Bihar">Bihar - 38 Mandi</option><option value="UP">Uttar Pradesh - 75 Mandi</option></select>
-<p style="font-size:20px;font-weight:bold;margin:10px 0 0">🏪 2. Pure UP Bihar Ki Mandi</p>
-<select id="mandi"></select>
-<p style="font-size:20px;font-weight:bold;margin:10px 0 0">🌾 3. Fasal Chuno</p>
-<select id="crop"><option>Makka</option><option>Gehu</option><option>Dhan</option><option>Sarso</option><option>Aloo</option><option>Pyaz</option><option>Arhar Dal</option><option>Chana</option><option>Masoor</option><option>Bajra</option></select>
-</div>
-
-<div class="card">
-<button class="btn mic" onclick="listen()">🎤 PEHLE MAI BOLUNGA - Dabao Aur Bolo</button>
-<p id="heard" style="font-size:19px;font-weight:bold;color:#555">Aapne bola: -</p>
-<p id="status" style="color:#FF6B00;font-weight:bold"></p>
-<button class="btn bhav" onclick="tellRate()">🔊 BHAV BATAO</button>
-<p id="ans">Pehle bolo ya Mandi-Fasal chuno</p>
-<button class="btn stop" onclick="stopSpeak()">🔇 CHUP HO JAO</button>
-<button class="btn" style="background:#FF9800" onclick="bestMandi()">🏆 PURE UP-BIHAR ME SABSE ZYADA BHAV KAHAN HAI?</button>
-</div>
-
-<div class="card"><b>🔥 Aaj Ka Bhav - <span id="mandiName"></span></b><p id="today" style="font-size:19px"></p></div>
-<p style="color:#888">Bol Kisan • Pure UP Bihar • 113 Mandi</p>
-
+<button class="btn orange" onclick="startApp()">🎤 MAI BOLUNGA</button>
+<button class="btn green" onclick="speakBhav()">🔊 BHAV BATAO</button>
+<button class="btn red" onclick="chup()">✋ CHUP HO JAO</button>
+<div id="result">Bhav yaha aayega</div>
+<div id="sun">Dabao aur Bolo - "Makka ke bhav kitna hai?"</div>
 <script>
-let mandis={
-"Bihar":["Patna","Nalanda","Gaya","Jehanabad","Arwal","Aurangabad","Buxar","Bhojpur","Rohtas","Kaimur","Nawada","Sheikhpura","Banka","Bhagalpur","Munger","Jamui","Lakhisarai","Begusarai","Khagaria","Samastipur","Shahpur Patori","Darbhanga","Madhubani","Sitamarhi","Muzaffarpur","Hajipur","Vaishali","Saran","Chhapra","Siwan","Gopalganj","Motihari","East Champaran","Bettiah","West Champaran","Purnia","Katihar","Araria","Kishanganj","Saharsa","Madhepura","Supaul"],
-"UP":["Agra","Aligarh","Ambedkar Nagar","Amethi","Amroha","Auraiya","Ayodhya","Azamgarh","Baghpat","Bahraich","Ballia","Balrampur","Banda","Barabanki","Bareilly","Basti","Bhadohi","Bijnor","Budaun","Bulandshahr","Chandauli","Chitrakoot","Deoria","Etah","Etawah","Farrukhabad","Fatehpur","Firozabad","Gautam Buddha Nagar","Ghaziabad","Ghazipur","Gonda","Gorakhpur","Hamirpur","Hapur","Hardoi","Hathras","Jalaun","Jaunpur","Jhansi","Kannauj","Kanpur Dehat","Kanpur Nagar","Kasganj","Kaushambi","Kushinagar","Lakhimpur Kheri","Lalitpur","Lucknow","Maharajganj","Mahoba","Mainpuri","Mathura","Mau","Meerut","Mirzapur","Moradabad","Muzaffarnagar","Pilibhit","Pratapgarh","Prayagraj","Raebareli","Rampur","Saharanpur","Sambhal","Sant Kabir Nagar","Shahjahanpur","Shamli","Shravasti","Siddharthnagar","Sitapur","Sonbhadra","Sultanpur","Unnao","Varanasi"]};
-let base={"Makka":2450,"Gehu":2425,"Dhan":2203,"Sarso":5650,"Aloo":1250,"Pyaz":1800,"Arhar Dal":7500,"Chana":5400,"Masoor":6200,"Bajra":2350};
-function getPrice(m,c){let s=0;for(let ch of (m+c))s+=ch.charCodeAt(0);return base[c]+((s%11)*25)-125}
-function loadMandi(){let s=document.getElementById("state").value;let m=document.getElementById("mandi");m.innerHTML="";mandis[s].forEach(x=>{let o=document.createElement("option");o.text=x;m.add(o)});showToday()}loadMandi();
-function speak(t){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='hi-IN';u.rate=0.92;speechSynthesis.speak(u)}
-function stopSpeak(){speechSynthesis.cancel();document.getElementById("ans").innerText="Chup ho gaya."}
-function tellRate(){let md=document.getElementById("mandi").value;let cr=document.getElementById("crop").value;let st=document.getElementById("state").value;let p=getPrice(md,cr);let msg=st+" ke "+md+" mandi me "+cr+" ka bhav "+p+" rupaye prati kuntal hai.";document.getElementById("ans").innerText=msg;speak(msg)}
-function showToday(){let m=document.getElementById("mandi").value;document.getElementById("mandiName").innerText=m;document.getElementById("today").innerHTML="🌽 Makka Rs "+getPrice(m,"Makka")+" | 🌾 Gehu Rs "+getPrice(m,"Gehu")+"<br>🍚 Dhan Rs "+getPrice(m,"Dhan")+" | 🥔 Aloo Rs "+getPrice(m,"Aloo")}
-function bestMandi(){let cr=document.getElementById("crop").value;let best="",bp=0;let bst="";for(let st in mandis){for(let md of mandis[st]){let p=getPrice(md,cr);if(p>bp){bp=p;best=md;bst=st}}}let msg="Pure UP Bihar me "+cr+" ka sabse zyada bhav "+bst+" ke "+best+" mandi me hai, "+bp+" rupaye kuntal.";document.getElementById("ans").innerText=msg;speak(msg)}
-function startApp(){document.getElementById("welcome").style.display="none"}
-function listen(){
-let r=new (window.SpeechRecognition||window.webkitSpeechRecognition)();r.lang='hi-IN';
-document.getElementById("status").innerText="🎤 SUN RAHA HUN... AB TUM BOLO!";
-document.getElementById("heard").innerText="Sun raha hun...";
-r.onresult=function(e){let txt=e.results[0][0].transcript;document.getElementById("heard").innerText="Aapne bola: "+txt;document.getElementById("status").innerText="Tumne bol diya! Ab main bol raha hun...";let low=txt.toLowerCase();for(let c in base){if(low.includes(c.toLowerCase()))document.getElementById("crop").value=c}for(let st in mandis){for(let md of mandis[st]){if(low.includes(md.toLowerCase().split(" ")[0])){document.getElementById("state").value=st;loadMandi();document.getElementById("mandi").value=md}}}setTimeout(tellRate,500)};
-r.onerror=function(){document.getElementById("status").innerText="Mic nahi khula! Upar Allow dabao."};
-r.start();
-}</script></body></html>
+var mandis={"Bihar":["Patna","Gulab Bagh","Hajipur","Muzaffarpur"],"Uttar Pradesh":["Kanpur","Lucknow","Agra"],"Madhya Pradesh":["Indore","Bhopal","Ujjain"]};
+var bhav={"Makka":2250,"Gehu":2425,"Dhan":2300,"Aloo":1200,"Sarso":5650};
+function loadMandi(){var s=document.getElementById("state").value;var m=document.getElementById("mandi");m.innerHTML="";mandis[s].forEach(function(x){m.innerHTML+="<option>"+x+"</option>"})}loadMandi();
+function setCrop(c,btn){document.getElementById("crop").value=c;if(btn){document.querySelectorAll(".quick button").forEach(function(b){b.classList.remove("on")});btn.classList.add("on")}}
+function bol(text){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="hi-IN";u.rate=0.9;speechSynthesis.speak(u)}
+function speakBhav(){var c=document.getElementById("crop").value;var m=document.getElementById("mandi").value;var p=bhav[c]||2000;var t=c+" ka bhav "+m+" mandi me "+p+" rupaye kuntal hai.";document.getElementById("result").innerText=t;bol(t)}
+function chup(){speechSynthesis.cancel();if(window.rec&&window.rec.stop){try{window.rec.stop()}catch(e){}}document.getElementById("sun").innerText="Chup ho gaya.";document.getElementById("result").innerText="Chup ho gaya."}
+function startApp(){document.getElementById("sun").innerText="Sun raha hu... Bolo";var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert("Chrome me kholo");return}var rec=new SR();window.rec=rec;rec.lang="hi-IN";rec.onresult=function(e){var t=e.results[0][0].transcript;document.getElementById("sun").innerText="Tumne bola: "+t;["Makka","Gehu","Dhan","Aloo","Sarso"].forEach(function(f){if(t.toLowerCase().includes(f.toLowerCase())){setCrop(f)}});setTimeout(speakBhav,600)};rec.start()}
+</script></body></html>
